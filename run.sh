@@ -15,6 +15,8 @@ fi
 STACK_NAME=$PROJECT_NAME
 CONTAINER_NAME="ide-pycharm-${STACK_NAME}"
 
+export STACK_NAME
+export CONTAINER_NAME
 export LOCAL_UID=$(id -u)
 export LOCAL_GID=$(id -g)
 
