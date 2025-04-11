@@ -18,13 +18,18 @@ RUN apt update && apt install -y \
     libfreetype6 \
     libxi6 \
     x11-apps \
-    # Runtime dependencies Python
+    # Runtime dependencies Python \
+    python3 \
+    python3-pip \
     # For running Pycharm with ubuntu user
     sudo \ 
     && rm -rf /var/lib/apt/lists/*
 
 # Téléchargement et installation de PhpStorm
 WORKDIR /home/ubuntu
+
+#COPY requirements.txt .
+#RUN pip3 install -r requirements.txt
 
 RUN mkdir /home/ubuntu/workspace && mkdir /home/ubuntu/.config && mkdir /home/ubuntu/.local
 RUN git config --global --add safe.directory /home/ubuntu/workspace 
