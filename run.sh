@@ -12,8 +12,8 @@ if [ -z "$PROJECT_NAME" ]; then
   exit 1
 fi
 
-CONTAINER_NAME="ide-pycharm"
 STACK_NAME=$PROJECT_NAME
+CONTAINER_NAME="ide-pycharm-${STACK_NAME}"
 
 export LOCAL_UID=$(id -u)
 export LOCAL_GID=$(id -g)

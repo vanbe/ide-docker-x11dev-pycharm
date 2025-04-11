@@ -2,7 +2,7 @@
 services:
   ide-pycharm:
     image: pycharm:latest
-    container_name: ide-pycharm
+    container_name: ${CONTAINER_NAME}
     user: "${LOCAL_UID}:${LOCAL_GID}"
     environment:
       - DISPLAY=${DISPLAY}                                      # X11 Server Display
@@ -13,7 +13,8 @@ services:
       - ~/.Xauthority:/home/ubuntu/.Xauthority                  # TODO check if used - Use it instead of network_mode host that is insecure
       - ide-pycharm-local:/home/ubuntu/.local                   # Pycharm Starting Preferences
       - ide-pycharm-config:/home/ubuntu/.config                 # Pycharm config and licences
-      - ${PWD}:/home/ubuntu/workspace                               # Project files
+      - ${PWD}:/home/ubuntu/workspace                           # Project files
+      - ~/.ssh:/home/ubuntu/.ssh
     privileged: true                                            # For permissions
     network_mode: host
 volumes:
