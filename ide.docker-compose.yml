@@ -1,0 +1,21 @@
+
+services:
+  pycharm:
+    image: pycharm:latest
+    container_name: pycharm
+    user: "${LOCAL_UID}:${LOCAL_GID}"
+    environment:
+      - DISPLAY=${DISPLAY}                                      # X11 Server Display
+      - USER_ID=${LOCAL_UID}                                    # User Permission, so the IDE runs with
+      - GROUP_ID=${LOCAL_GID}                                   # the same permissions as the host
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix                           # Share X11 Socket
+      - ~/.Xauthority:/home/ubuntu/.Xauthority                  # TODO check if used - Use it instead of network_mode host that is insecure
+      - ide-pycharm-local:/home/ubuntu/.local                  # PhpStorm Starting Preferences
+      - ide-pycharm-config:/home/ubuntu/.config                # PhpStorm config and licences
+      - ./:/home/ubuntu/workspace                               # Project files
+    privileged: true                                            # For permissions
+    network_mode: host
+volumes:
+  ide-pycharm-local:
+  ide-pycharm-config:
