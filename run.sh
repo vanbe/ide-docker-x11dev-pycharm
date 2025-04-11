@@ -1,7 +1,19 @@
 #!/bin/bash
+# Load environment variables from .env file
+if [ -f .env ]; then
+  export $(grep -v '^#' .env | xargs)
+else
+  echo "Warning: .env file not found."
+fi
+
+# Check if PROJECT_NAME is set
+if [ -z "$PROJECT_NAME" ]; then
+  echo "Error: PROJECT_NAME not defined in .env."
+  exit 1
+fi
 
 CONTAINER_NAME="ide-pycharm"
-STACK_NAME="project" # TODO use arg / variable .env ?
+STACK_NAME=$PROJECT_NAME
 
 export LOCAL_UID=$(id -u)
 export LOCAL_GID=$(id -g)
@@ -9,8 +21,9 @@ export LOCAL_GID=$(id -g)
 start_ide() {
     echo "Starting Pycharm IDE container..."
     xhost +local:
-
-    docker compose -p $STACK_NAME -f docker-compose.yml -f ide/pycharm/ide.docker-compose.yml up -d
+    docker compose -p $STACK_NAME -f ide/pycharm/ide.docker-compose.yml up -d
+    #all stack up
+    #docker compose -p $STACK_NAME -f docker-compose.yml -f ide/pycharm/ide.docker-compose.yml up -d
     echo "Waiting for container to initialize..."
     sleep 10
     if docker ps | grep -q $CONTAINER_NAME; then

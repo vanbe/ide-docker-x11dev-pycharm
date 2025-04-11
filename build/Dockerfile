@@ -26,7 +26,7 @@ RUN apt update && apt install -y \
 # Téléchargement et installation de PhpStorm
 WORKDIR /home/ubuntu
 
-RUN mkdir /home/ubuntu/workspace
+RUN mkdir /home/ubuntu/workspace && mkdir /home/ubuntu/.config && mkdir /home/ubuntu/.local
 RUN git config --global --add safe.directory /home/ubuntu/workspace 
 
 COPY --from=pycharm-downloader:latest /root/ /home/ubuntu
@@ -36,13 +36,14 @@ COPY --from=pycharm-downloader:latest /root/ /home/ubuntu
 
 # Changer de propriétaire pour éviter les problèmes de permission
 RUN chown -R ubuntu:ubuntu /home/ubuntu
+RUN chown -R ubuntu:ubuntu /home/ubuntu/.*
 RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 #RUN echo "export PATH=\"${PHP_PREFIX}/bin:\$PATH\"" | tee -a /etc/environment
 #RUN echo "export PATH=\"${COMPOSER_HOME}:\$PATH\"" | tee -a /etc/environment
 RUN echo "source /etc/environment" >> /etc/bash.bashrc
 
-# Commande pour lancer PhpStorm
+# Commande pour lancer Pycharm
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
