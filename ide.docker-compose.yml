@@ -14,7 +14,7 @@ services:
       - ide-pycharm-local:/home/ubuntu/.local                   # Pycharm Starting Preferences
       - ide-pycharm-config:/home/ubuntu/.config                 # Pycharm config and licences
       - ${PWD}:/home/ubuntu/workspace                           # Project files
-      - ~/.ssh:/home/ubuntu/.ssh
+      - /home/${USER}/.ssh:/home/ubuntu/.ssh
     privileged: true                                            # For permissions
     network_mode: host
 volumes:
