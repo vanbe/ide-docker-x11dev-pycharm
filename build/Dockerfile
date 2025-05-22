@@ -21,9 +21,11 @@ RUN apt update && apt install -y \
     # Runtime dependencies Python \
     python3 \
     python3-pip \
+    python3-venv \
     # For running Pycharm with ubuntu user
-    sudo \ 
-    && rm -rf /var/lib/apt/lists/*
+    sudo # \
+    #\
+    #&& rm -rf /var/lib/apt/lists/*
 
 # Téléchargement et installation de PhpStorm
 WORKDIR /home/ubuntu
