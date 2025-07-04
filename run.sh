@@ -20,6 +20,24 @@ export CONTAINER_NAME
 export LOCAL_UID=$(id -u)
 export LOCAL_GID=$(id -g)
 
+start_ide_gpu() {
+    echo "Starting Pycharm IDE GPU container..."
+    xhost +local:
+    docker compose -p $STACK_NAME -f ide/pycharm/ide-gpu.docker-compose.yml up -d
+    #all stack up
+    #docker compose -p $STACK_NAME -f docker-compose.yml -f ide/pycharm/ide.docker-compose.yml up -d
+    echo "Waiting for container to initialize..."
+    sleep 10
+    if docker ps | grep -q $CONTAINER_NAME; then
+        echo -e "\033[32mPycharm GPU is running!\033[0m"
+        echo "Attach to it using: docker attach ${CONTAINER_NAME}"
+    else
+        echo -e "\033[31mFailed to start Pycharm container\033[0m"
+        docker compose -p $STACK_NAME ps | grep $CONTAINER_NAME
+        exit 1
+    fi
+}
+
 start_ide() {
     echo "Starting Pycharm IDE container..."
     xhost +local:
@@ -59,6 +77,9 @@ status_ide() {
 case "$1" in
     start)
         start_ide
+        ;;
+    startgpu)
+        start_ide_gpu
         ;;
     stop)
         stop_ide

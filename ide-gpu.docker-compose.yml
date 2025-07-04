@@ -4,7 +4,9 @@ services:
     image: pycharm:latest
     container_name: ${CONTAINER_NAME}
     user: "${LOCAL_UID}:${LOCAL_GID}"
+    runtime: nvidia  # GPU
     environment:
+      - NVIDIA_VISIBLE_DEVICES=all # GPU
       - DISPLAY=${DISPLAY}                                      # X11 Server Display
       - USER_ID=${LOCAL_UID}                                    # User Permission, so the IDE runs with
       - GROUP_ID=${LOCAL_GID}                                   # the same permissions as the host
